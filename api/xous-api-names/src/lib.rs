@@ -1,9 +1,12 @@
-#![cfg_attr(target_os = "none", no_std)]
+#![no_std]
 
 //! Detailed docs are parked under Structs/XousNames down below
 
 pub mod api;
 
+extern crate alloc;
+
+use alloc::string::String;
 use core::fmt::Write;
 
 use api::Disconnect;

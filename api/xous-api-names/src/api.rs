@@ -1,3 +1,5 @@
+use alloc::string::String;
+
 mod rkyv_enum;
 pub use rkyv_enum::*;
 
@@ -200,14 +202,14 @@ impl core::fmt::Write for XousServerName {
     }
 }
 
-impl std::hash::Hash for XousServerName {
+impl core::hash::Hash for XousServerName {
     fn hash<H>(&self, state: &mut H)
     where
-        H: std::hash::Hasher,
+        H: core::hash::Hasher,
     {
         assert!(self.length < self.value.len(), "incorret length on hash!");
-        std::hash::Hash::hash(&self.value[..self.length as usize], state);
-        std::hash::Hash::hash(&self.length, state)
+        core::hash::Hash::hash(&self.value[..self.length as usize], state);
+        core::hash::Hash::hash(&self.length, state)
     }
 }
 
