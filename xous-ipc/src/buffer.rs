@@ -1,5 +1,5 @@
+use core::marker::PhantomData;
 use core::mem::MaybeUninit;
-use std::marker::PhantomData;
 
 use rkyv::{
     Archive, Deserialize, Place, Portable, Serialize,
