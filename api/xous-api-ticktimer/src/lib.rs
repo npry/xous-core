@@ -1,8 +1,11 @@
-#![cfg_attr(target_os = "none", no_std)]
+#![no_std]
+
+extern crate alloc;
 
 pub mod api;
 
-use std::str::FromStr;
+use alloc::string::String;
+use core::str::FromStr;
 
 use num_traits::ToPrimitive;
 use xous::{CID, Error, send_message};
