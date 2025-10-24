@@ -1,13 +1,13 @@
-#![cfg_attr(target_os = "none", no_std)]
+#![no_std]
 #![cfg_attr(not(target_os = "none"), allow(dead_code))]
 #![cfg_attr(not(target_os = "none"), allow(unused_imports))]
 #![cfg_attr(not(target_os = "none"), allow(unused_variables))]
 
 pub mod api;
 pub use api::*;
+
 use num_traits::{FromPrimitive, ToPrimitive};
 use xous::{CID, Message, msg_scalar_unpack, send_message};
-use xous_ipc::Buffer;
 
 #[derive(Debug)]
 pub struct Susres {
@@ -49,7 +49,7 @@ impl Susres {
             order: order.unwrap_or(SuspendOrder::Normal),
         };
         log::debug!("hooking {:?}", hookdata);
-        let buf = Buffer::into_buf(hookdata).or(Err(xous::Error::InternalError))?;
+        let buf = xous_ipc::Buffer::into_buf(hookdata).or(Err(xous::Error::InternalError))?;
         buf.lend(conn, Opcode::SuspendEventSubscribe.to_u32().unwrap())?;
 
         Ok(Susres { conn, suspend_cb_sid: Some(sid) })
@@ -72,7 +72,7 @@ impl Susres {
         _ordering: Option<SuspendOrder>,
         xns: &xous_names::XousNames,
         cb_discriminant: u32,
-        cid: CID,
+        _cid: CID,
     ) -> Result<Self, xous::Error> {
         REFCOUNT.fetch_add(1, Ordering::Relaxed);
         Ok(Susres { conn: 0, suspend_cb_sid: None })
