@@ -1,4 +1,4 @@
-#![cfg_attr(any(target_os = "none", feature = "nostd"), no_std)]
+#![no_std]
 use core::fmt::Write;
 use core::sync::atomic::{AtomicU32, Ordering};
 
@@ -70,9 +70,13 @@ impl XousLogger {
 }
 
 impl log::Log for XousLogger {
-    fn enabled(&self, _metadata: &log::Metadata) -> bool { true }
+    fn enabled(&self, _metadata: &log::Metadata) -> bool {
+        true
+    }
 
-    fn log(&self, record: &log::Record) { XOUS_LOGGER.log_impl(record); }
+    fn log(&self, record: &log::Record) {
+        XOUS_LOGGER.log_impl(record);
+    }
 
     fn flush(&self) {}
 }
@@ -97,4 +101,6 @@ pub fn init_wait() -> Result<(), ()> {
     Ok(())
 }
 
-pub fn resume() { XOUS_LOGGER.resume(); }
+pub fn resume() {
+    XOUS_LOGGER.resume();
+}
